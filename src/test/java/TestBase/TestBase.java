@@ -1,13 +1,14 @@
 package TestBase;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestBase {
 
-    public boolean haveAllElementsOnPage(String[][] requiredPageElements, List<WebElement> webElementList) throws NoSuchElementException {
+    public List<String> getNotFoundElements(String[][] requiredPageElements, List<WebElement> webElementList){
+        List<String> notFoundElementsList = new ArrayList<>();
         boolean isMatch;
 
         for (String[] requiredPageElement : requiredPageElements) {
@@ -21,14 +22,14 @@ public class TestBase {
             }
 
             if(!isMatch) {
-                String message = String.format(
+                String element = String.format(
                         "The element with attribute: %s and value: %s was not found on the page.",
                         requiredPageElement[1], requiredPageElement[0]);
 
-                throw new NoSuchElementException(message);
+                notFoundElementsList.add(element);
             }
         }
-        return true;
+        return notFoundElementsList;
     }
 
 }

@@ -5,22 +5,33 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class SiteMenuTest extends TestBase {
 
+    private ChromeDriver chrome;
+
+    @BeforeMethod
+    public void initializeChromeDriver() {
+        chrome = new ChromeDriver();
+        chrome.get("https://litecart.stqa.ru/en/");
+    }
+
+    @AfterMethod
+    public void closeChromeDriver() {
+        chrome.close();
+    }
+
     @Test(groups = "homePage")
     public void homePageLinkTestByTitle() {
-        ChromeDriver chrome = new ChromeDriver();
-        chrome.get("https://litecart.stqa.ru/en/");
-
         WebElement homePageLink = chrome.findElement(By.cssSelector("#site-menu .general-0"));
         homePageLink.click();
 
         String title = chrome.getTitle();
-        chrome.close();
 
         Assert.assertEquals(title, "Online Store | My Store");
 
@@ -28,9 +39,6 @@ public class SiteMenuTest extends TestBase {
 
     @Test(groups = "homePage")
     public void homePageLinkTestByElements() {
-        ChromeDriver chrome = new ChromeDriver();
-        chrome.get("https://litecart.stqa.ru/en/");
-
         WebElement homePageLink = chrome.findElement(By.cssSelector("#site-menu .general-0"));
         homePageLink.click();
 
@@ -41,25 +49,16 @@ public class SiteMenuTest extends TestBase {
         };
         List<WebElement> webElementList = chrome.findElements(By.cssSelector("#main .middle>.content .box"));
 
-        try{
-            haveAllElementsOnPage(requiredPageElements, webElementList);
-        } catch (NoSuchElementException e) {
-            Assert.fail(e.getMessage());
-        } finally {
-            chrome.close();
-        }
+        List<String> notFoundElements = getNotFoundElements(requiredPageElements, webElementList);
+        Assert.assertTrue(notFoundElements.isEmpty(), notFoundElements.toString());
     }
 
     @Test(groups = "rubberDucksPage")
     public void rubberDucksLinkTestByTitle() {
-        ChromeDriver chrome = new ChromeDriver();
-        chrome.get("https://litecart.stqa.ru/en/");
-
         WebElement homePageLink = chrome.findElement(By.cssSelector("#site-menu .category-1"));
         homePageLink.click();
 
         String title = chrome.getTitle();
-        chrome.close();
 
         Assert.assertEquals(title, "Rubber Ducks | My Store");
 
@@ -67,9 +66,6 @@ public class SiteMenuTest extends TestBase {
 
     @Test(groups = "rubberDucksPage")
     public void rubberDucksLinkTestByElements() {
-        ChromeDriver chrome = new ChromeDriver();
-        chrome.get("https://litecart.stqa.ru/en/");
-
         WebElement homePageLink = chrome.findElement(By.cssSelector("#site-menu .category-1"));
         homePageLink.click();
 
@@ -79,19 +75,12 @@ public class SiteMenuTest extends TestBase {
         };
         List<WebElement> webElementList = chrome.findElements(By.cssSelector("#box-category ul"));
 
-        try{
-            haveAllElementsOnPage(requiredPageElements, webElementList);
-        } catch (NoSuchElementException e) {
-            Assert.fail(e.getMessage());
-        } finally {
-            chrome.close();
-        }
+        List<String> notFoundElements = getNotFoundElements(requiredPageElements, webElementList);
+        Assert.assertTrue(notFoundElements.isEmpty(), notFoundElements.toString());
     }
 
     @Test(groups = "subcategoryPage")
     public void subcategoryPageLinkTestByTitle() {
-        ChromeDriver chrome = new ChromeDriver();
-        chrome.get("https://litecart.stqa.ru/en/");
         Actions builder = new Actions(chrome);
 
         WebElement rubberDucksLink = chrome.findElement(By.cssSelector("#site-menu .category-1"));
@@ -99,7 +88,6 @@ public class SiteMenuTest extends TestBase {
         builder.moveToElement(rubberDucksLink).click(subcategoryLink).perform();
 
         String title = chrome.getTitle();
-        chrome.close();
 
         Assert.assertEquals(title, "Subcategory | My Store");
 
@@ -107,8 +95,6 @@ public class SiteMenuTest extends TestBase {
 
     @Test(groups = "subcategoryPage")
     public void subcategoryPageLinkTestByElements() {
-        ChromeDriver chrome = new ChromeDriver();
-        chrome.get("https://litecart.stqa.ru/en/");
         Actions builder = new Actions(chrome);
 
         WebElement rubberDucksLink = chrome.findElement(By.cssSelector("#site-menu .category-1"));
@@ -117,7 +103,6 @@ public class SiteMenuTest extends TestBase {
 
         WebElement navigationPointer = chrome.findElement(By.cssSelector("#breadcrumbs li:last-of-type"));
         String actualNavigationName = navigationPointer.getText();
-        chrome.close();
 
         Assert.assertEquals(actualNavigationName, "» Subcategory");
     }
