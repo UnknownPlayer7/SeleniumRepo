@@ -16,14 +16,14 @@ public class SiteMenuTest extends TestBase {
     private ChromeDriver chrome;
 
     @BeforeMethod
-    public void initializeChromeDriver() {
+    public void setup() {
         chrome = new ChromeDriver();
         chrome.get("https://litecart.stqa.ru/en/");
     }
 
     @AfterMethod
-    public void closeChromeDriver() {
-        chrome.close();
+    public void teardown() {
+        chrome.quit();
     }
 
     @Test(groups = "homePage")
