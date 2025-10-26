@@ -1,7 +1,7 @@
-package TestBase;
+package mySelenide.TestBase;
 
 public enum LocatorType {
     id,
     name,
-    css
+    css,
 }

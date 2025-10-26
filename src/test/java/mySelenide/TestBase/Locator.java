@@ -1,4 +1,4 @@
-package TestBase;
+package mySelenide.TestBase;
 
 import org.openqa.selenium.By;
 
