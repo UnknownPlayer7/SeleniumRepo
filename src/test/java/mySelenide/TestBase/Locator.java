@@ -25,9 +25,9 @@ public class Locator {
         String[] result = value.split("=", 2);
 
         return switch (LocatorType.valueOf(result[0])) {
-            case LocatorType.id -> By.id(result[1]);
-            case LocatorType.name -> By.name(result[1]);
-            case LocatorType.css -> By.cssSelector(result[1]);
+            case id -> By.id(result[1]);
+            case name -> By.name(result[1]);
+            case css -> By.cssSelector(result[1]);
         };
     }
 
