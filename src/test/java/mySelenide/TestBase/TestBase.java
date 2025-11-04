@@ -2,22 +2,22 @@ package mySelenide.TestBase;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.epam.reportportal.testng.ReportPortalTestNGListener;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 
-@Listeners({ScreenshotListener.class, ReportPortalTestNGListener.class})
+@Listeners({ScreenshotListener.class})
 public class TestBase {
 
     @BeforeMethod
     public void setup() {
         DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setPlatform(Platform.WIN10);
+        caps.setPlatform(Platform.WINDOWS);
         Configuration.remote = "http://localhost:4444/wd/hub";
         Configuration.browserCapabilities = caps;
+        Configuration.browser = "chrome";
     }
 
     @AfterMethod
