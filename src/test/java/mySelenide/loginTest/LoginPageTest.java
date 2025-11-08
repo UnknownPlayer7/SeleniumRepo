@@ -1,5 +1,7 @@
 package mySelenide.loginTest;
 
+import com.codeborne.selenide.AssertionMode;
+import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;

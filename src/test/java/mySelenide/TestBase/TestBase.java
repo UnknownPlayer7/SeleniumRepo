@@ -1,5 +1,6 @@
 package mySelenide.TestBase;
 
+import com.codeborne.selenide.AssertionMode;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -24,6 +25,7 @@ public class TestBase {
         DesiredCapabilities caps = new DesiredCapabilities();
         Platform platform = Platform.valueOf(System.getProperty("oc","WIN10"));
         caps.setPlatform(platform);
+        Configuration.assertionMode = AssertionMode.STRICT;
         Configuration.remote = "http://localhost:4444/wd/hub";
         Configuration.browserCapabilities = caps;
         Configuration.browser = System.getProperty("browser","chrome");

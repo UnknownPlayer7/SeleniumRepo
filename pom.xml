@@ -13,7 +13,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <selenium-version>4.38.0</selenium-version>
-        <selenide-version>7.11.0</selenide-version>
+        <selenide-version>7.12.0</selenide-version>
         <aspectj.version>1.9.24</aspectj.version>
     </properties>
     <dependencies>
