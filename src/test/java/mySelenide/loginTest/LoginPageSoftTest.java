@@ -62,7 +62,7 @@ public class LoginPageSoftTest extends TestBase {
         Configuration.assertionMode = AssertionMode.SOFT;
 
         loginPage.getNoticeText().shouldHave(text("Wrong password or the account is disabled, or does not exist"));
-        webdriver().shouldHave(title("Login | My Store"));
+        webdriver().shouldHave(title("LoginBUG | My Store"));
     }
 
     @Story("Login with wrong credentials")
