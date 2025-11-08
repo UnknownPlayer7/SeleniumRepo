@@ -35,7 +35,7 @@ public class LoginPageTest extends TestBase {
         LoginBox loginBox = new LoginBox();
         loginBox.attemptLogin("saladin@mail.com", "saladinAdmin@123");
 
-        loginBox.getTitle().shouldHave(text("Account"));
+        loginBox.getTitle().shouldHave(text("BUG"));
     }
 
     @Story("Login with wrong credentials")
