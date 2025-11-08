@@ -14,10 +14,11 @@ public class TestBase {
     @BeforeMethod
     public void setup() {
         DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setPlatform(Platform.WINDOWS);
+        Platform platform = Platform.valueOf(System.getProperty("oc","WIN10"));
+        caps.setPlatform(platform);
         Configuration.remote = "http://localhost:4444/wd/hub";
         Configuration.browserCapabilities = caps;
-        Configuration.browser = "chrome";
+        Configuration.browser = System.getProperty("browser","chrome");
     }
 
     @AfterMethod
