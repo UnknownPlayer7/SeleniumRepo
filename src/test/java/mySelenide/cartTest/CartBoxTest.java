@@ -53,7 +53,7 @@ public class CartBoxTest extends TestBase {
         CartBox cartBox = new CartBox();
         CataloguePage cataloguePage = new CataloguePage();
 
-        String expectedMoney = calculateExpectedMoney($(rubberDuckLocator), enteredQuantity);
+        String expectedMoney = calculateExpectedMoney($(rubberDuckLocator), enteredQuantity) + 20; // BUG HERE
 
         cataloguePage.addRubberDuckToCart(rubberDuckLocator, enteredQuantity);
 
@@ -75,7 +75,7 @@ public class CartBoxTest extends TestBase {
     @DataProvider(name = "rubberDucks")
     public Object[][] rubberDuckLocatorProvider() {
         return new Object[][] {
-                {Locator.getLocator("CataloguePageTest.GreenDuckBUG"), "21"},
+                {Locator.getLocator("CataloguePageTest.GreenDuck"), "21"},
                 {Locator.getLocator("CataloguePageTest.BlueDuck"), "12"},
                 {Locator.getLocator("CataloguePageTest.PurpleDuck"), "1"},
                 {Locator.getLocator("CataloguePageTest.RedDuck"), "99"}
