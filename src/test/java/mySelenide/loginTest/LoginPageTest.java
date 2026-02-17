@@ -1,16 +1,21 @@
 package mySelenide.loginTest;
 
-import com.codeborne.selenide.AssertionMode;
-import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.*;
 import com.codeborne.selenide.testng.SoftAsserts;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import mySelenide.TestBase.TestBase;
+
+import java.io.IOException;
+import java.net.*;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.codeborne.selenide.WebDriverConditions.title;
 import static com.codeborne.selenide.Condition.text;
@@ -25,7 +30,7 @@ public class LoginPageTest extends TestBase {
     @BeforeMethod
     public void setup() {
         super.setup();
-        open("https://litecart.stqa.ru/en/");
+        open("https://litecart.stqa.ru/en/login");
     }
 
     @Story("Login with right credentials")
@@ -33,7 +38,7 @@ public class LoginPageTest extends TestBase {
     @Test(description = "Login with right credentials")
     public void rightCredentialTest() {
         LoginBox loginBox = new LoginBox();
-        loginBox.attemptLogin("saladin@mail.com", "saladinAdmin@123");
+        loginBox.attemptLogin("saladin123@mail.com", "saladinAdmin@123");
 
         loginBox.getTitle().shouldHave(text("Account"));
     }
@@ -111,5 +116,37 @@ public class LoginPageTest extends TestBase {
 
         loginPage.getNoticeText().shouldHave(text("Wrong password or the account is disabled, or does not exist"));
         webdriver().shouldHave(title("Login | My Store"));
+    }
+
+    @Test
+    public void brokenLinksTest() {
+        String baseUrl = "https://litecart.stqa.ru/en/";
+
+        List<String> links = new LoginPage().getLinks(baseUrl);
+        HashMap<String,Integer> responseCodes = getResponseCodes(links);
+
+        SoftAssertions.assertSoftly(softAssertions -> {
+            softAssertions.assertThat(responseCodes)
+                    .allSatisfy( (link,code) ->
+                            softAssertions.assertThat(code).as("Broken link").isLessThan(400));
+        });
+    }
+
+    private HashMap<String, Integer> getResponseCodes(List<String> links) {
+        HttpURLConnection connection;
+        HashMap<String, Integer> responseCodes = new HashMap<>();
+
+        for(String link: links) {
+            try {
+                connection = (HttpURLConnection) new URI(link).toURL().openConnection();
+                connection.setRequestMethod("HEAD");
+                connection.connect();
+                responseCodes.put(link, connection.getResponseCode());
+
+            } catch (IOException | URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return responseCodes;
     }
 }
